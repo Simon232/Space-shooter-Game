@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Space Shooter</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!-- Howler.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.3/howler.min.js"></script>
+
+<script type="text/javascript" src="js/particles.js"></script>
+
+</head>
+
+
+<body >
+	<!-- GAME -->
+	<canvas style="z-index:1" id="canvas" width="800" height="600">
+
+	</canvas>
+
+	<script type="text/javascript" src="js/game.js"></script>
+
+	<!-- just for development, because it is copyrighted music -->
+	<script>
+	    var sound = new Howl({
+	      src: ['music/Mass Effect 3 Soundtrack - Mars.mp3']
+	    });
+	    sound.play();
+	</script>
+		
+	<button onclick="sound.stop();" style="position:absolute; left:350px; top:635px; width:100px; height:40px">Sound off</button>
+
+</body>
+</html>
