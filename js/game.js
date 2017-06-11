@@ -385,10 +385,10 @@ function init() {
   document.addEventListener("keyup", keyUp, false);
         canvas.addEventListener("click", gameStart, false);
   gameLoop();
-  //randomEnemyDirection();
+  
   setInterval(randomEnemyDirection, 4000);
   setInterval(randomEnemyDirectionMovement, 1000 / 10);
-  //console.log(this.randomDir);
+  
 }
 
 
@@ -427,6 +427,7 @@ function keyDown(e) {
   if (e.keyCode == 32 && lasers.length <= laserTotal) lasers.push([ship_x + 25, ship_y - 15, 4, 20]);
 }
 
+
 //Checks to see if a pressed key has been released and stops the ships movement if it has
 function keyUp(e) {
   if (e.keyCode == 39) rightKey = false;
@@ -435,9 +436,9 @@ function keyUp(e) {
   else if (e.keyCode == 40) downKey = false;
 }
 
+
 window.onload = function() {
   init();
-
 };
 
 
