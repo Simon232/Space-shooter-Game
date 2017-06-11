@@ -1,7 +1,8 @@
-﻿var canvas,
+﻿let canvas,
     ctx,
     width = 800,  
     height = 600,
+
     enemyTotal = 5,
     enemies = [],
     enemy_x = 90,
@@ -10,19 +11,26 @@
     enemy_h = 38,
     speed = 2,
     enemy,
+
     rightKey = false,
     leftKey = false,
     upKey = false,
     downKey = false,
+
     ship,
-    ship_x = (width / 2) - 25, ship_y = height - 31, ship_w = 50, ship_h = 31,
+    ship_x = (width / 2) - 25, 
+    ship_y = height - 31, 
+    ship_w = 50, 
+    ship_h = 31,
+
     laserTotal = 2,
     lasers = [],
     score = 0,
     alive = true,
     lives = 3,
     starfield,
-    starX = 0, starY = 0, starY2 = -600,
+    starX = 0, 
+    starY = 0, starY2 = -600,
     gameStarted = false;
 
 
@@ -34,7 +42,7 @@ for (var i = 0; i < enemyTotal; i++) {
 
 //Clears the canvas so it can be updated
 function clearCanvas() {
- ctx.clearRect(0,0,width,height);
+ ctx.clearRect(0,0, width, height);
 }
 
 //Cycles through the array and draws the updated enemy position
@@ -46,27 +54,77 @@ function drawEnemies() {
 
 //If an arrow key is being pressed, moves the ship in the right direction
 function drawShip() {
- if (rightKey) ship_x += 5;
- else if (leftKey) ship_x -= 5;
- if (upKey) ship_y -= 5;
- else if (downKey) ship_y += 5;
- if (ship_x <= 0) ship_x = 0;
+ if (rightKey) {
+	ship_x += 5;
+ } else if (leftKey) {
+	ship_x -= 5;
+ }
+ if (upKey) {
+	ship_y -= 5;
+ } else if (downKey) {
+	ship_y += 5;
+ }
+ if (ship_x <= 0) {
+	ship_x = 0;
+ }
  if ((ship_x + ship_w) >= width) ship_x = width - ship_w;
-  if (ship_y <= 0) ship_y = 0;
+ if (ship_y <= 0) {
+	ship_y = 0;
+ }
  if ((ship_y + ship_h) >= height) ship_y = height - ship_h;
   ctx.drawImage(ship, ship_x, ship_y);
 }
 
+
+function randomEnemyDirection(){
+	this.randomNum = rand(0, 1);
+	this.randomDir /*= "enemyMoveRight"*/;
+	
+  if (this.randomNum == 0){
+		this.randomDir = "enemyMoveRight";
+	} else {
+		this.randomDir = "enemyMoveLeft";
+	}
+  
+  console.log(this.randomDir);
+};
+
+
+function randomEnemyDirectionMovement(){
+  for (var i = 0; i < enemies.length; i++) {
+    if (this.randomDir == "enemyMoveRight"){
+      enemies[i][0] += 4;
+  
+      if (enemies[i][0] >= width - enemy_w){
+        enemies[i][0] -= 4;
+        this.randomDir = "enemyMoveLeft";
+      }
+    } else if (this.randomDir == "enemyMoveLeft") {
+      enemies[i][0] -= 4;
+      if (enemies[i][0] <= 0){
+        enemies[i][0] += 4;
+        this.randomDir = "enemyMoveRight";
+      }
+    }
+  } 
+}
+
+
 //This moves the enemies downwards on the canvas and if one passes the bottom of the canvas, it moves it to above the canvas
 function moveEnemies() {
+		//randomEnemyDirection();
+
   for (var i = 0; i < enemies.length; i++) {
-   if (enemies[i][1] < height) {
-     enemies[i][1] += enemies[i][4];
-   } else if (enemies[i][1] > height - 1) {
-      enemies[i][1] = -45;
+    if (enemies[i][1] < height) {
+      enemies[i][1] += enemies[i][4];  //enemy_y += enemy speed
+      //console.log(this.randomDir);
+
+    } else if (enemies[i][1] > height - 1) {
+      enemies[i][1] = -enemy_h;
     }
   }
 }
+
 
 //If there are lasers in the lasers array, then this will draw them on the canvas
 function drawLaser() {
@@ -74,9 +132,10 @@ function drawLaser() {
     for (var i = 0; i < lasers.length; i++) {
      ctx.fillStyle = "#0066ff";
 
-     ctx.fillRect(lasers[i][0],lasers[i][1],lasers[i][2],lasers[i][3])
+     ctx.fillRect(lasers[i][0], lasers[i][1], lasers[i][2], lasers[i][3])
    }
 }
+
 
 //If we're drawing lasers on the canvas, this moves them up the canvas
 function moveLaser() {
@@ -88,6 +147,7 @@ function moveLaser() {
     }
   }
 }
+
 
 //Runs a couple of loops to see if any of the lasers have hit any of the enemies
 function hitTest() {
@@ -137,6 +197,7 @@ function shipCollision() {
   }
 }
 
+
 //When player's ship collides with any of the enemies, particles appear
 function explode(ship_xw, ship_yh) {
   var particles = 20;
@@ -150,13 +211,13 @@ function explode(ship_xw, ship_yh) {
     body.appendChild(explosion);
 
   // position the container to be centered on click
-  explosion.style.left = (ship_xw - 785 / 2) + "px";  
-  explosion.style.top = (ship_yh - 600 / 2) + "px";  
+  explosion.style.left = (ship_xw - (width - 15) / 2) + "px";  
+  explosion.style.top = (ship_yh - height / 2) + "px";  
 
   for (var i = 0; i < particles; i++) {
     // positioning x,y of the particle on the circle (little randomized radius)
     var a = (800 / 2) + rand(80, 150) * Math.cos(2 * Math.PI * i / rand(particles - 10, particles + 10)),
-       b = (600 / 2) + rand(80, 150) * Math.sin(2 * Math.PI * i / rand(particles - 10, particles + 10));
+      b = (600 / 2) + rand(80, 150) * Math.sin(2 * Math.PI * i / rand(particles - 10, particles + 10));
      
         // particle element creation (could be anything other than div)
     var elm = document.createElement("div");
@@ -171,34 +232,38 @@ function explode(ship_xw, ship_yh) {
 
     if (i == 0) { // no need to add the listener on all generated elements
       // css3 animation end detection
-        elm.addEventListener('webkitAnimationEnd', function(e) {
-	  if (explosion.body) {
-            explosion.body.removeChild(explosion); // remove this explosion container when animation ended
-	  }
-        });
-        elm.addEventListener('oanimationend', function(e) {
-	  if (explosion.body) {
-            explosion.body.removeChild(explosion); // remove this explosion container when animation ended
-	  }
-        });
-        elm.addEventListener('msAnimationEnd', function(e) {
-	  if (explosion.body) {
-            explosion.body.removeChild(explosion); // remove this explosion container when animation ended
-	  }
-        });
+      elm.addEventListener('webkitAnimationEnd', function(e) {
+	      if (explosion.body) {
+          explosion.body.removeChild(explosion); // remove this explosion container when animation ended
+	      }
+      });
+
+      elm.addEventListener('oanimationend', function(e) {
+	      if (explosion.body) {
+          explosion.body.removeChild(explosion); // remove this explosion container when animation ended
+	      }
+      });
+
+      elm.addEventListener('msAnimationEnd', function(e) {
+	      if (explosion.body) {
+          explosion.body.removeChild(explosion); // remove this explosion container when animation ended
+	      }
+      });
+
         elm.addEventListener('animationend', function(e) {
-	  if (explosion.body) {
-            explosion.body.removeChild(explosion); // remove this explosion container when animation ended
-	  }
-        });
+	      if (explosion.body) {
+          explosion.body.removeChild(explosion); // remove this explosion container when animation ended
+	      }
+      });
     }
     explosion.appendChild(elm);
   }
 }
 
-// get random number between min and max value, which use the explode function above
+
+// get random number between min and max value (inclusive at both the minimum and the maximum), which use the explode function above
 function rand(min, max) {
-  return Math.floor(Math.random() * (max + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
@@ -212,16 +277,18 @@ function checkLives() {
   }
 }
 
+
 //This simply resets the ship and enemies to their starting positions
 function reset() {
   var enemy_reset_x = 90;
-  ship_x = (width / 2) - 25, ship_y = height - 69, ship_w = 50, ship_h = 31;
+  ship_x = (width / 2) - 25, ship_y = height - ship_h, ship_w = 50, ship_h = 31;
   for (var i = 0; i < enemies.length; i++) {
    enemies[i][0] = enemy_reset_x;
-   enemies[i][1] = -45;
+   enemies[i][1] = -enemy_h;
    enemy_reset_x = enemy_reset_x + enemy_w + 90;
  }
 }
+
 
 //After the player loses all their lives, the continue button is shown and if clicked, it resets the game and removes the event listener for the continue button
 function continueButton(e) {
@@ -234,11 +301,13 @@ function continueButton(e) {
   }
 }
 
+
 //holds the cursors position
 function cursorPosition(x,y) {
   this.x = x;
   this.y = y;
 }
+
 
 //finds the cursor's position after the mouse is clicked
 function getCursorPos(e) {
@@ -256,6 +325,7 @@ function getCursorPos(e) {
   var cursorPos = new cursorPosition(x, y);
   return cursorPos;
 }
+
 
 //Draws the text for the score and lives on the canvas and if the player runs out of lives, it's draws the game over text and continue button as well as adding the event listener for the continue button
 function scoreTotal() {
@@ -285,19 +355,21 @@ function scoreTotal() {
   }
 }
 
+
 //Draws and animates the background starfield
 function drawStarfield() {
   ctx.drawImage(starfield,starX,starY);
   ctx.drawImage(starfield,starX,starY2);
-  if (starY > 600) {
-    starY = -599;
+  if (starY > height) {
+    starY = -height + 1;
   }
-  if (starY2 > 600) {
-    starY2 = -599;
+  if (starY2 > height) {
+    starY2 = -height + 1;
   }
   starY += 1;
   starY2 += 1;
 }
+
 
 //The initial function called when the page first loads. Loads the ship, enemy and starfield images and adds the event listeners for the arrow keys. It then calls the gameLoop function.
 function init() {
@@ -313,12 +385,18 @@ function init() {
   document.addEventListener("keyup", keyUp, false);
         canvas.addEventListener("click", gameStart, false);
   gameLoop();
+  //randomEnemyDirection();
+  setInterval(randomEnemyDirection, 4000);
+  setInterval(randomEnemyDirectionMovement, 1000 / 10);
+  //console.log(this.randomDir);
 }
+
 
 function gameStart() {
   gameStarted = true;
   canvas.removeEventListener("click", gameStart, false);
 }
+
 
 // The main function of the game, it calls all the other functions needed to make the game run
 function gameLoop() {
@@ -333,9 +411,12 @@ function gameLoop() {
     drawShip();
     drawLaser();
   }
+	
   scoreTotal();
-  game = setTimeout(gameLoop, 1000 / 30);
+  	game = setTimeout(gameLoop, 1000 / 30);
+
 }
+
 
 //Checks to see which key has been pressed and either to move the ship or fire a laser
 function keyDown(e) {
@@ -356,6 +437,10 @@ function keyUp(e) {
 
 window.onload = function() {
   init();
+
 };
+
+
+
 
 
