@@ -35,7 +35,7 @@
 
 
 //Array to hold all the enemies on screen
-for (var i = 0; i < enemyTotal; i++) {
+for (let i = 0; i < enemyTotal; i++) {
  enemies.push([enemy_x, enemy_y, enemy_w, enemy_h, speed]);  
  enemy_x += enemy_w + 90;  
 }
@@ -47,7 +47,7 @@ function clearCanvas() {
 
 //Cycles through the array and draws the updated enemy position
 function drawEnemies() {
- for (var i = 0; i < enemies.length; i++) {
+ for (let i = 0; i < enemies.length; i++) {
    ctx.drawImage(enemy, enemies[i][0], enemies[i][1]); 
  }
 }
@@ -91,7 +91,7 @@ function randomEnemyDirection(){
 
 
 function randomEnemyDirectionMovement(){
-  for (var i = 0; i < enemies.length; i++) {
+  for (let i = 0; i < enemies.length; i++) {
     if (this.randomDir == "enemyMoveRight"){
       enemies[i][0] += 4;
   
@@ -114,7 +114,7 @@ function randomEnemyDirectionMovement(){
 function moveEnemies() {
 		//randomEnemyDirection();
 
-  for (var i = 0; i < enemies.length; i++) {
+  for (let i = 0; i < enemies.length; i++) {
     if (enemies[i][1] < height) {
       enemies[i][1] += enemies[i][4];  //enemy_y += enemy speed
       //console.log(this.randomDir);
@@ -129,7 +129,7 @@ function moveEnemies() {
 //If there are lasers in the lasers array, then this will draw them on the canvas
 function drawLaser() {
   if (lasers.length)
-    for (var i = 0; i < lasers.length; i++) {
+    for (let i = 0; i < lasers.length; i++) {
      ctx.fillStyle = "#0066ff";
 
      ctx.fillRect(lasers[i][0], lasers[i][1], lasers[i][2], lasers[i][3])
@@ -139,7 +139,7 @@ function drawLaser() {
 
 //If we're drawing lasers on the canvas, this moves them up the canvas
 function moveLaser() {
-  for (var i = 0; i < lasers.length; i++) {
+  for (let i = 0; i < lasers.length; i++) {
     if (lasers[i][1] > -11) {
       lasers[i][1] -= 10;
     } else if (lasers[i][1] < -10) {
@@ -151,9 +151,9 @@ function moveLaser() {
 
 //Runs a couple of loops to see if any of the lasers have hit any of the enemies
 function hitTest() {
- var remove = false;
- for (var i = 0; i < lasers.length; i++) {
-   for (var j = 0; j < enemies.length; j++) {
+ let remove = false;
+ for (let i = 0; i < lasers.length; i++) {
+   for (let j = 0; j < enemies.length; j++) {
      if (ship_y > enemies[j][1]  &&  lasers[i][1] <= (enemies[j][1] + enemies[j][3])  &&  lasers[i][0] >= enemies[j][0]  &&  lasers[i][0] <= (enemies[j][0] + enemies[j][2])) {
 		
 	explode(enemies[j][0]+20, enemies[j][1]+38);
@@ -174,10 +174,10 @@ function hitTest() {
       
 //Similar to the laser hit test, this function checks to see if the player's ship collides with any of the enemies
 function shipCollision() {
-  var ship_xw = ship_x + ship_w,
+  let ship_xw = ship_x + ship_w,
      ship_yh = ship_y + ship_h;
 
-  for (var i = 0; i < enemies.length; i++) {
+  for (let i = 0; i < enemies.length; i++) {
    if (ship_x > enemies[i][0] && ship_x < enemies[i][0] + enemy_w && ship_y > enemies[i][1] && ship_y < enemies[i][1] + enemy_h) {
      checkLives();
      explode(ship_xw, ship_yh);
@@ -198,30 +198,33 @@ function shipCollision() {
 }
 
 
+
+let particles = 20;
+  // explosion container and its reference to be able to delete it on animation end
+let body = document.querySelector("body");
+let explosion = document.createElement("div");
+let att = document.createAttribute("class");
+att.value = "explosion";
+explosion.setAttributeNode(att);
+
+body.appendChild(explosion);
+
 //When player's ship collides with any of the enemies, particles appear
 function explode(ship_xw, ship_yh) {
-  var particles = 20;
-    // explosion container and its reference to be able to delete it on animation end
-    var body = document.querySelector("body");
-    var explosion = document.createElement("div");
-    var att = document.createAttribute("class");
-    att.value = "explosion";
-    explosion.setAttributeNode(att);
-
-    body.appendChild(explosion);
+ 
 
   // position the container to be centered on click
   explosion.style.left = (ship_xw - (width - 15) / 2) + "px";  
   explosion.style.top = (ship_yh - height / 2) + "px";  
 
-  for (var i = 0; i < particles; i++) {
+  for (let i = 0; i < particles; i++) {
     // positioning x,y of the particle on the circle (little randomized radius)
-    var a = (800 / 2) + rand(80, 150) * Math.cos(2 * Math.PI * i / rand(particles - 10, particles + 10)),
+    let a = (800 / 2) + rand(80, 150) * Math.cos(2 * Math.PI * i / rand(particles - 10, particles + 10)),
       b = (600 / 2) + rand(80, 150) * Math.sin(2 * Math.PI * i / rand(particles - 10, particles + 10));
      
         // particle element creation (could be anything other than div)
-    var elm = document.createElement("div");
-    var att2 = document.createAttribute("class");
+    let elm = document.createElement("div");
+    let att2 = document.createAttribute("class");
     att2.value = "particle";
     elm.setAttributeNode(att2);
 
@@ -267,7 +270,7 @@ function rand(min, max) {
 }
 
 
-//This function runs whenever the player's ship hits an enemy and either subtracts a life or sets the alive variable to false if the player runs out of lives
+//This function runs whenever the player's ship hits an enemy and either subtracts a life or sets the alive letiable to false if the player runs out of lives
 function checkLives() {
   lives -= 1;
   if (lives > 0) {
@@ -280,9 +283,9 @@ function checkLives() {
 
 //This simply resets the ship and enemies to their starting positions
 function reset() {
-  var enemy_reset_x = 90;
+  let enemy_reset_x = 90;
   ship_x = (width / 2) - 25, ship_y = height - ship_h, ship_w = 50, ship_h = 31;
-  for (var i = 0; i < enemies.length; i++) {
+  for (let i = 0; i < enemies.length; i++) {
    enemies[i][0] = enemy_reset_x;
    enemies[i][1] = -enemy_h;
    enemy_reset_x = enemy_reset_x + enemy_w + 90;
@@ -292,9 +295,10 @@ function reset() {
 
 //After the player loses all their lives, the continue button is shown and if clicked, it resets the game and removes the event listener for the continue button
 function continueButton(e) {
- var cursorPos = getCursorPos(e);
- if (cursorPos.x > (width / 2) - 53  &&  cursorPos.x < (width / 2) + 47  &&  cursorPos.y > (height / 2) + 10  &&  cursorPos.y < (height / 2) + 50) {
-   alive = true;
+  let cursorPos = getCursorPos(e);
+  
+  if (cursorPos.x > (width / 2) - 53  &&  cursorPos.x < (width / 2) + 47  &&  cursorPos.y > (height / 2) + 10  &&  cursorPos.y < (height / 2) + 50) {
+    alive = true;
     lives = 3;
     reset();
     canvas.removeEventListener("click", continueButton, false);
@@ -311,8 +315,8 @@ function cursorPosition(x,y) {
 
 //finds the cursor's position after the mouse is clicked
 function getCursorPos(e) {
-  var x;
-  var y;
+  let x;
+  let y;
   if (e.pageX || e.pageY) {
     x = e.pageX;
     y = e.pageY;
@@ -322,7 +326,7 @@ function getCursorPos(e) {
   }
   x -= canvas.offsetLeft;
   y -= canvas.offsetTop;
-  var cursorPos = new cursorPosition(x, y);
+  let cursorPos = new cursorPosition(x, y);
   return cursorPos;
 }
 
@@ -414,26 +418,39 @@ function gameLoop() {
 	
   scoreTotal();
   	game = setTimeout(gameLoop, 1000 / 30);
-
 }
 
 
 //Checks to see which key has been pressed and either to move the ship or fire a laser
 function keyDown(e) {
-  if (e.keyCode == 39) rightKey = true;
-  else if (e.keyCode == 37) leftKey = true;
-  if (e.keyCode == 38) upKey = true;
-  else if (e.keyCode == 40) downKey = true;
-  if (e.keyCode == 32 && lasers.length <= laserTotal) lasers.push([ship_x + 25, ship_y - 15, 4, 20]);
+  if (e.keyCode == 39){
+    rightKey = true;
+  } else if (e.keyCode == 37){
+    leftKey = true;
+  }
+  if (e.keyCode == 38){
+    upKey = true;
+  } else if (e.keyCode == 40){
+    downKey = true;
+  }
+  if (e.keyCode == 32 && lasers.length <= laserTotal){
+    lasers.push([ship_x + 25, ship_y - 15, 4, 20]);
+  }
 }
 
 
 //Checks to see if a pressed key has been released and stops the ships movement if it has
 function keyUp(e) {
-  if (e.keyCode == 39) rightKey = false;
-  else if (e.keyCode == 37) leftKey = false;
-  if (e.keyCode == 38) upKey = false;
-  else if (e.keyCode == 40) downKey = false;
+  if (e.keyCode == 39){
+    rightKey = false;
+  } else if (e.keyCode == 37){
+    leftKey = false;
+  }
+  if (e.keyCode == 38){ 
+    upKey = false;
+  } else if (e.keyCode == 40){
+    downKey = false;
+  }
 }
 
 
