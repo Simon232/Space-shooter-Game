@@ -1,4 +1,4 @@
-﻿let canvas,
+﻿var canvas,
     ctx,
     width = 800,  
     height = 600,
