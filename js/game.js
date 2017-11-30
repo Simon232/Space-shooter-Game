@@ -394,7 +394,6 @@ function gameLoop() {
   	game = setTimeout(gameLoop, 1000 / 30);
 }
 
-
 //Checks to see which key has been pressed and either to move the ship or fire a laser
 function keyDown(e) {
   if (e.keyCode == 39){
@@ -412,7 +411,6 @@ function keyDown(e) {
   }
 }
 
-
 //Checks to see if a pressed key has been released and stops the ships movement if it has
 function keyUp(e) {
   if (e.keyCode == 39){
@@ -427,12 +425,6 @@ function keyUp(e) {
   }
 }
 
-
 window.onload = function() {
   init();
 };
-
-
-
-
-
