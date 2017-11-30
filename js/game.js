@@ -1,55 +1,54 @@
 ﻿var canvas,
-    ctx,
-    width = 800,  
-    height = 600,
+  ctx,
+  width = 800,  
+  height = 600,
 
-    enemyTotal = 5,
-    enemies = [],
-    enemy_x = 90,
-    enemy_y = -45,
-    enemy_w = 50,
-    enemy_h = 38,
-    speed = 2,
-    enemy,
+  enemyTotal = 5,
+  enemies = [],
+  enemy_x = 90,
+  enemy_y = -45,
+  enemy_w = 50,
+  enemy_h = 38,
+  speed = 2,
+  enemy,
 
-    rightKey = false,
-    leftKey = false,
-    upKey = false,
-    downKey = false,
+  rightKey = false,
+  leftKey = false,
+  upKey = false,
+  downKey = false,
 
-    ship,
-    ship_x = (width / 2) - 25, 
-    ship_y = height - 31, 
-    ship_w = 50, 
-    ship_h = 31,
+  ship,
+  ship_x = (width / 2) - 25, 
+  ship_y = height - 31, 
+  ship_w = 50, 
+  ship_h = 31,
 
-    laserTotal = 2,
-    lasers = [],
-    score = 0,
-    alive = true,
-    lives = 3,
-    starfield,
-    starX = 0, 
-    starY = 0, starY2 = -600,
-    gameStarted = false;
-
+  laserTotal = 2,
+  lasers = [],
+  score = 0,
+  alive = true,
+  lives = 3,
+  starfield,
+  starX = 0, 
+  starY = 0, starY2 = -600,
+  gameStarted = false;
 
 //Array to hold all the enemies on screen
 for (let i = 0; i < enemyTotal; i++) {
- enemies.push([enemy_x, enemy_y, enemy_w, enemy_h, speed]);  
- enemy_x += enemy_w + 90;  
+  enemies.push([enemy_x, enemy_y, enemy_w, enemy_h, speed]);  
+  enemy_x += enemy_w + 90;  
 }
 
 //Clears the canvas so it can be updated
 function clearCanvas() {
- ctx.clearRect(0,0, width, height);
+  ctx.clearRect(0,0, width, height);
 }
 
 //Cycles through the array and draws the updated enemy position
 function drawEnemies() {
- for (let i = 0; i < enemies.length; i++) {
-   ctx.drawImage(enemy, enemies[i][0], enemies[i][1]); 
- }
+  for (let i = 0; i < enemies.length; i++) {
+    ctx.drawImage(enemy, enemies[i][0], enemies[i][1]); 
+  }
 }
 
 //If an arrow key is being pressed, moves the ship in the right direction
@@ -75,7 +74,6 @@ function drawShip() {
   ctx.drawImage(ship, ship_x, ship_y);
 }
 
-
 function randomEnemyDirection(){
 	this.randomNum = rand(0, 1);
 	this.randomDir /*= "enemyMoveRight"*/;
@@ -88,7 +86,6 @@ function randomEnemyDirection(){
   
   console.log(this.randomDir);
 };
-
 
 function randomEnemyDirectionMovement(){
   for (let i = 0; i < enemies.length; i++) {
@@ -109,7 +106,6 @@ function randomEnemyDirectionMovement(){
   } 
 }
 
-
 //This moves the enemies downwards on the canvas and if one passes the bottom of the canvas, it moves it to above the canvas
 function moveEnemies() {
 		//randomEnemyDirection();
@@ -125,7 +121,6 @@ function moveEnemies() {
   }
 }
 
-
 //If there are lasers in the lasers array, then this will draw them on the canvas
 function drawLaser() {
   if (lasers.length)
@@ -135,7 +130,6 @@ function drawLaser() {
      ctx.fillRect(lasers[i][0], lasers[i][1], lasers[i][2], lasers[i][3])
    }
 }
-
 
 //If we're drawing lasers on the canvas, this moves them up the canvas
 function moveLaser() {
@@ -147,7 +141,6 @@ function moveLaser() {
     }
   }
 }
-
 
 //Runs a couple of loops to see if any of the lasers have hit any of the enemies
 function hitTest() {
@@ -170,12 +163,11 @@ function hitTest() {
     }
   }
 }
-   
       
 //Similar to the laser hit test, this function checks to see if the player's ship collides with any of the enemies
 function shipCollision() {
   let ship_xw = ship_x + ship_w,
-     ship_yh = ship_y + ship_h;
+      ship_yh = ship_y + ship_h;
 
   for (let i = 0; i < enemies.length; i++) {
    if (ship_x > enemies[i][0] && ship_x < enemies[i][0] + enemy_w && ship_y > enemies[i][1] && ship_y < enemies[i][1] + enemy_h) {
@@ -198,7 +190,6 @@ function shipCollision() {
 }
 
 
-
 let particles = 20;
   // explosion container and its reference to be able to delete it on animation end
 let body = document.querySelector("body");
@@ -211,27 +202,22 @@ body.appendChild(explosion);
 
 //When player's ship collides with any of the enemies, particles appear
 function explode(ship_xw, ship_yh) {
- 
-
-  // position the container to be centered on click
-  explosion.style.left = (ship_xw - (width - 15) / 2) + "px";  
+  explosion.style.left = (ship_xw - (width - 15) / 2) + "px";   // position the container to be centered on click
   explosion.style.top = (ship_yh - height / 2) + "px";  
 
   for (let i = 0; i < particles; i++) {
-    // positioning x,y of the particle on the circle (little randomized radius)
-    let a = (800 / 2) + rand(80, 150) * Math.cos(2 * Math.PI * i / rand(particles - 10, particles + 10)),
-      b = (600 / 2) + rand(80, 150) * Math.sin(2 * Math.PI * i / rand(particles - 10, particles + 10));
+    let a = (800 / 2) + rand(80, 150) * Math.cos(2 * Math.PI * i / rand(particles - 10, particles + 10)),   // positioning x,y of the particle on the circle (little randomized radius)
+        b = (600 / 2) + rand(80, 150) * Math.sin(2 * Math.PI * i / rand(particles - 10, particles + 10));
      
-        // particle element creation (could be anything other than div)
+    // particle element creation (could be anything other than div)
     let elm = document.createElement("div");
     let att2 = document.createAttribute("class");
     att2.value = "particle";
     elm.setAttributeNode(att2);
 
     explosion.appendChild(elm);
-
-        elm.style.top = b + "px";
-        elm.style.left = a + "px";
+    elm.style.top = b + "px";
+    elm.style.left = a + "px";
 
     if (i == 0) { // no need to add the listener on all generated elements
       // css3 animation end detection
@@ -249,13 +235,13 @@ function explode(ship_xw, ship_yh) {
 
       elm.addEventListener('msAnimationEnd', function(e) {
 	      if (explosion.body) {
-          explosion.body.removeChild(explosion); // remove this explosion container when animation ended
+          explosion.body.removeChild(explosion); 
 	      }
       });
 
         elm.addEventListener('animationend', function(e) {
 	      if (explosion.body) {
-          explosion.body.removeChild(explosion); // remove this explosion container when animation ended
+          explosion.body.removeChild(explosion); 
 	      }
       });
     }
@@ -263,12 +249,10 @@ function explode(ship_xw, ship_yh) {
   }
 }
 
-
 // get random number between min and max value (inclusive at both the minimum and the maximum), which use the explode function above
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 //This function runs whenever the player's ship hits an enemy and either subtracts a life or sets the alive letiable to false if the player runs out of lives
 function checkLives() {
@@ -280,7 +264,6 @@ function checkLives() {
   }
 }
 
-
 //This simply resets the ship and enemies to their starting positions
 function reset() {
   let enemy_reset_x = 90;
@@ -291,7 +274,6 @@ function reset() {
    enemy_reset_x = enemy_reset_x + enemy_w + 90;
  }
 }
-
 
 //After the player loses all their lives, the continue button is shown and if clicked, it resets the game and removes the event listener for the continue button
 function continueButton(e) {
@@ -305,13 +287,11 @@ function continueButton(e) {
   }
 }
 
-
 //holds the cursors position
 function cursorPosition(x,y) {
   this.x = x;
   this.y = y;
 }
-
 
 //finds the cursor's position after the mouse is clicked
 function getCursorPos(e) {
@@ -329,7 +309,6 @@ function getCursorPos(e) {
   let cursorPos = new cursorPosition(x, y);
   return cursorPos;
 }
-
 
 //Draws the text for the score and lives on the canvas and if the player runs out of lives, it's draws the game over text and continue button as well as adding the event listener for the continue button
 function scoreTotal() {
@@ -359,7 +338,6 @@ function scoreTotal() {
   }
 }
 
-
 //Draws and animates the background starfield
 function drawStarfield() {
   ctx.drawImage(starfield,starX,starY);
@@ -373,7 +351,6 @@ function drawStarfield() {
   starY += 1;
   starY2 += 1;
 }
-
 
 //The initial function called when the page first loads. Loads the ship, enemy and starfield images and adds the event listeners for the arrow keys. It then calls the gameLoop function.
 function init() {
@@ -391,16 +368,13 @@ function init() {
   gameLoop();
   
   setInterval(randomEnemyDirection, 4000);
-  setInterval(randomEnemyDirectionMovement, 1000 / 10);
-  
+  setInterval(randomEnemyDirectionMovement, 1000 / 10);  
 }
-
 
 function gameStart() {
   gameStarted = true;
   canvas.removeEventListener("click", gameStart, false);
 }
-
 
 // The main function of the game, it calls all the other functions needed to make the game run
 function gameLoop() {
