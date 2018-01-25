@@ -1,19 +1,56 @@
-body { padding:0; margin:0; background:#666; }
+body {
+    padding: 0;
+    margin: 0;
+    background: #666;
+}
 
+#background-video {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 600px;
+    overflow: hidden;
+}
 
-#background-video { position: absolute; z-index: 1; top: 0;
-  left: 0; width: 800px; height: 600px; overflow: hidden; }
+img {
+    position: absolute;
+    left: 300px;
+    top: 82px;
+    z-index: 2;
+}
 
-img { position: absolute; left: 300px; top: 82px; z-index:2; }
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 300px;
+    top: 128px;
+    z-index: 2;
+    width: 200px;
+    background-color: #ffffff;
+    color: black;
+}
 
-ul { list-style-type: none; margin: 0; padding: 0; position:absolute; left: 300px; top: 128px; 
-  z-index:2;
-    width: 200px; background-color: #ffffff; color: black;}
+li a {
+    display: block;
+    color: #000;
+    margin: 10px 0;
+    padding: 8px 16px;
+    text-decoration: none;
+}
 
-li a { display: block; color: #000; margin: 10px 0; padding: 8px 16px; text-decoration: none; }
+li {
+    text-align: center;
+}
 
-li { text-align: center; }
+li:last-child {
+    border-bottom: none;
+}
 
-li:last-child { border-bottom: none; }
-
-li a:hover { background-color: #bfbfbf; /*gray*/ }
+li a:hover {
+    background-color: #bfbfbf;
+    /*gray*/
+}
